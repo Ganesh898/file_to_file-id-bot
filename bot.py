@@ -3,6 +3,7 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # --- 1. Aapki File IDs ---
+AACTIVE_HIGHRING_DSA = "BQACAgUAAyEFAATYPjwnAAMraUWivs60GP4C-RqH9ziyntVumcwAAnMeAAIp3zBWSHAtVtF7LsI2BA"
 JAVA_ID = "BQACAgUAAxkBAANGAuUO54TJUPdOVXBLOcxdT3Xv1PcAAkobAAlm1ShWMvWKko0768M2BA"
 QUESTION_SET_ID = "BQACAgUAAxkBAAMKaUUo07edKvsSL5H5OFEBWOcxR5oAAisbAAIm1ShWePuiBfIBqLI2BA"
 
@@ -13,6 +14,7 @@ ADMIN_ID = 2104563445
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Buttons ekdum wahi jo aapke Telegram pe dikh rahe hain
     keyboard = [
+        ['ACTIVE_HIGHRING_DSA']
         ['Java Notes 📚', 'HR_Question Set 📝'], 
         ['Physics Notes 🍎', 'Help 💡']
     ]
@@ -32,7 +34,8 @@ async def handle_everything(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         elif text == 'HR_Question Set 📝':
             await context.bot.send_document(chat_id=update.effective_chat.id, document=QUESTION_SET_ID, caption="Ye raha tumhara HR Question Set! 📑")
-            
+        elif text == 'ACTIVE_HIGHRING_DSA':
+            await context.bot.send_document(chat_id=update.effective_chat.id, document=ACTIVE_HIGHRING_DSA_ID, caption="ye raha thumara Active highring dsa set! 📑")
         elif text == 'Help 💡':
             await update.message.reply_text("Bhai, niche diye gaye buttons pe click karo notes mil jayenge!")
 
