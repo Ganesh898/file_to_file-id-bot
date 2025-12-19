@@ -2,39 +2,42 @@ import os
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-# --- Yahan apni details dalo ---
-ADMIN_ID = 2104563445  # <--- Apni asli Telegram User ID yahan dalo
+# --- 1. Apni saari File IDs yahan dalo ---
 JAVA_ID = "BQACAgUAAxkBAANGAuUO54TJUPdOVXBLOcxdT3Xv1PcAAkobAAlm1ShWMvWKko0768M2BA"
+HR_QUESTION_SET_ID = "BQACAgUAAxkBAAMKaUUo07edKvsSL5H5OFEBWOcxR5oAAisbAAIm1ShWePuiBfIBqLI2BA" # Nayi ID yahan dalo
+
+ADMIN_ID = 2104563445  # <--- Apni asli ID check kar lena
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [['Java Notes 📚', 'Physics Notes 🍎'], ['Help 💡']]
+    # --- 2. Button ka naam yahan add karo ---
+    keyboard = [
+        ['Java Notes 📚', 'HR_Question Set 📝'], # Naya button yahan dala
+        ['Physics Notes 🍎', 'Help 💡']
+    ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    await update.message.reply_text(
-        "Welcome! Notes chahiye toh buttons use karo.",
-        reply_markup=reply_markup
-    )
+    await update.message.reply_text("Bhai bot ready hai! Kya chahiye?", reply_markup=reply_markup)
 
 async def handle_everything(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     
-    # 1. Agar koi Text/Button bheje
     if update.message.text:
         text = update.message.text
+        
+        # Java Notes ka logic
         if text == 'Java Notes 📚':
             await context.bot.send_document(chat_id=update.effective_chat.id, document=JAVA_ID, caption="Ye lo Java notes! 🔥")
+        
+        # --- 3. Naye Question Set button ka logic yahan hai ---
+        elif text == 'HR_Question Set 📝':
+            await context.bot.send_document(chat_id=update.effective_chat.id, document=QUESTION_SET_ID, caption="Ye raha tumhara Question Set! 📑")
+            
         elif text == 'Help 💡':
-            await update.message.reply_text("Buttons pe click karo bhai!")
+            await update.message.reply_text("Buttons use karo notes ke liye!")
 
-    # 2. Agar koi Document/Video bheje
-    elif update.message.document or update.message.video:
-        # Check karo ki kya bhejne wala ADMIN (Aap) hai?
-        if user_id == ADMIN_ID:
-            file_id = (update.message.document.file_id if update.message.document 
-                       else update.message.video.file_id)
-            await update.message.reply_text(f"Owner Sahab, ye rahi ID:\n\n`{file_id}`", parse_mode='Markdown')
-        else:
-            # Agar koi aur hai, toh use ID mat dikhao
-            await update.message.reply_text("Sorry bhai, aapko file bhejni allowed nahi hai. Sirf buttons use karo!")
+    # ID generator part (Sirf Admin ke liye)
+    elif (update.message.document or update.message.video) and user_id == ADMIN_ID:
+        file_id = update.message.document.file_id if update.message.document else update.message.video.file_id
+        await update.message.reply_text(f"ID mil gayi:\n`{file_id}`", parse_mode='Markdown')
 
 def main():
     token = os.getenv("BOT_TOKEN")
