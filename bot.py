@@ -6,17 +6,19 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 ACTIVE_HIGHRING_DSA_ID = "BQACAgUAAyEFAATYPjwnAAMraUWivs60GP4C-RqH9ziyntVumcwAAnMeAAIp3zBWSHAtVtF7LsI2BA"
 JAVA_ID = "BQACAgUAAxkBAANGAuUO54TJUPdOVXBLOcxdT3Xv1PcAAkobAAlm1ShWMvWKko0768M2BA"
 QUESTION_SET_ID = "BQACAgUAAxkBAAMKaUUo07edKvsSL5H5OFEBWOcxR5oAAisbAAIm1ShWePuiBfIBqLI2BA"
-C_PROGRAMMING_ID = "BQACAgUAAxkBAAMWaUXKcdw67BK_usCd1loAAU177iA-AAL4HwACr44wVnYgzuLtuuJyNgQ" # Nayi ID yahan hai
+C_PROGRAMMING_ID = "BQACAgUAAxkBAAMWaUXKcdw67BK_usCd1loAAU177iA-AAL4HwACr44wVnYgzuLtuuJyNgQ"
+DSA_HANDWRITTEN_ID = "BQACAgUAAxkBAAMYaUXNEXUWZPzUvWrzKbwM3fQacaQAAvsfAAKvjjBWOGfi4Hn3OD42BA" # Nayi ID yahan hai
 
 # --- 2. Aapki Admin ID ---
 ADMIN_ID = 2104563445 
 
 # 1. Start Command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Buttons layout mein naya button add kiya hai
+    # Buttons layout mein naya button line add ki hai
     keyboard = [
         ['ACTIVE_HIGHRING_DSA'],
-        ['C_programming_book_Notes'], # Naya button
+        ['DSA_Handwritten_Notes'], # Naya Button
+        ['C_programming_book_Notes'],
         ['Java Notes 📚', 'HR_Question Set 📝'], 
         ['Physics Notes 🍎', 'Help 💡']
     ]
@@ -38,8 +40,11 @@ async def handle_everything(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == 'ACTIVE_HIGHRING_DSA':
         await context.bot.send_document(chat_id=update.effective_chat.id, document=ACTIVE_HIGHRING_DSA_ID, caption="Ye raha tumhara Active hiring dsa set! 📑")
 
-    elif text == 'C_programming_book_Notes': # Naya logic
+    elif text == 'C_programming_book_Notes':
         await context.bot.send_document(chat_id=update.effective_chat.id, document=C_PROGRAMMING_ID, caption="Ye lo C Programming Book Notes! 💻📘")
+
+    elif text == 'DSA_Handwritten_Notes': # Naya Logic
+        await context.bot.send_document(chat_id=update.effective_chat.id, document=DSA_HANDWRITTEN_ID, caption="Ye lo DSA Handwritten Notes! ✍️🔥")
     
     elif text == 'Help 💡':
         await update.message.reply_text("Bhai, niche diye gaye buttons pe click karo notes mil jayenge!")
